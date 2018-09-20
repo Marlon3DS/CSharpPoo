@@ -2,7 +2,7 @@
 
 namespace ExercicioResolvido3
 {
-    class Produto
+    class Produto: IComparable
     {
         public int Codigo { get; private set; }
         public string Descricao { get; set; }
@@ -18,6 +18,17 @@ namespace ExercicioResolvido3
         public override string ToString()
         {
             return String.Format("{0}, {1}, {2:C}", Codigo, Descricao, Preco);
+        }
+
+        public int CompareTo(object obj)
+        {
+            Produto produto = (Produto)obj;
+            int resultado = Descricao.CompareTo(produto.Descricao);
+            if(resultado != 0)
+            {
+                return resultado;
+            }
+            return -Preco.CompareTo(produto.Preco);
         }
     }
 }

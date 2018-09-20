@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+ 
 namespace ExercicioResolvido3
 {
     class Program
@@ -57,6 +57,7 @@ namespace ExercicioResolvido3
             listaProduto.Add(new Produto(1003, "Sofá de três lugares", 2000.00));
             listaProduto.Add(new Produto(1004, "Mesa retangular", 1500.00));
             listaProduto.Add(new Produto(1005, "Mesa retangular", 2000.00));
+            listaProduto.Sort();
         }
 
         static void ListarProdutos()
@@ -80,57 +81,27 @@ namespace ExercicioResolvido3
             Console.Write("Preço: ");
             double preco = double.Parse(Console.ReadLine());
             listaProduto.Add(new Produto(codigo, descricao, preco));
-        }
-
-        static int Localizar (int codigo, Tipo tipo)
-        {
-            if (tipo == Tipo.Produto)
-            {
-                for (int i = 0; i < listaProduto.Count; i++)
-                {
-                    if (codigo == listaProduto[i].Codigo)
-                    {
-                        return i;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < listaPedidos.Count; i++)
-                {
-                    if (codigo == listaPedidos[i].Codigo)
-                    {
-                        return i;
-                    }
-                }
-            }
-            return -1;
+            listaProduto.Sort();
         }
 
         static Produto LocalizarProduto(int codigo)
         {
-            int indice = Localizar(codigo, Tipo.Produto);
-            if (indice < 0)
+            Produto produto = listaProduto.Find(x => x.Codigo == codigo);
+            if (produto != null)
             {
-                return null;
+                return produto;
             }
-            else
-            {
-                return listaProduto[indice];
-            }
+            throw new ModelException("Produto não encontrado!");
         }
 
         static Pedido LocalizarPedido(int codigo)
         {
-            int indice = Localizar(codigo, Tipo.Pedido);
-            if (indice < 0)
+            Pedido pedido = listaPedidos.Find(x => x.Codigo == codigo);
+            if (pedido != null)
             {
-                return null;
+                return pedido;
             }
-            else
-            {
-                return listaPedidos[indice];
-            }
+            throw new ModelException("Pedido não encontrado!");
         }
 
         static void CadastrarPedido()
@@ -173,16 +144,10 @@ namespace ExercicioResolvido3
 
             foreach (ItemPedido item in pedido.Pedidos)
             {
-                saida += item.ToString();
+                saida += "\t" + item.ToString();
             }
             saida += string.Format("Total do pedido: {0:C}", pedido.ValorTotal());
             Console.WriteLine(saida);
-        }
-
-        enum Tipo
-        {
-            Produto,
-            Pedido
         }
     }
 }
