@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExercicioResolvido3
 {
@@ -44,7 +41,6 @@ namespace ExercicioResolvido3
                         MostrarPedido();
                         break;
                     case 5:
-                        Console.Write("Até mais!");
                         break;
                     default:
                         Console.Write("Opção inválida! Escolha entre 1 e 5");
@@ -66,7 +62,7 @@ namespace ExercicioResolvido3
         static void ListarProdutos()
         {
             Console.Clear();
-            Console.WriteLine("LISTAGEM DE PRODUTOS" + Separador());
+            Console.WriteLine("LISTAGEM DE PRODUTOS");
             foreach (Produto produto in listaProduto)
             {
                 Console.WriteLine(produto.ToString());
@@ -75,53 +71,66 @@ namespace ExercicioResolvido3
 
         static void CadastrarProduto()
         {
-            int opcao = 0;
-            do
-            {
-                int codigo = ValidaCodigo();
-                Console.Write("Descrição: ");
-                string descricao = Console.ReadLine();
-                Console.Write("Preço: ");
-                double preco = double.Parse(Console.ReadLine());
-
-                listaProduto.Add(new Produto(codigo, descricao, preco));
-
-                Console.Write(Separador() + "Deseja cadastrar um novo Produto?(1 - Sim / 2 - Não)\n> ");
-                int.TryParse(Console.ReadLine(), out opcao);
-            } while (opcao != 2);
+            Console.Clear();
+            Console.WriteLine("Digite os dados do Produto");
+            Console.Write("Código: ");
+            int codigo = int.Parse(Console.ReadLine());
+            Console.Write("Descrição: ");
+            string descricao = Console.ReadLine();
+            Console.Write("Preço: ");
+            double preco = double.Parse(Console.ReadLine());
+            listaProduto.Add(new Produto(codigo, descricao, preco));
         }
 
-        static int ValidaCodigo()
+        static int Localizar (int codigo, Tipo tipo)
         {
-            int codigo = 0;
-            do
+            if (tipo == Tipo.Produto)
             {
-                Console.Clear();
-                Console.WriteLine("Digite os dados do Produto" + Separador());
-                Console.Write("Código: ");
-                codigo = int.Parse(Console.ReadLine());
-                foreach (Produto produto in listaProduto)
+                for (int i = 0; i < listaProduto.Count; i++)
                 {
-                    if(codigo == produto.Codigo)
+                    if (codigo == listaProduto[i].Codigo)
                     {
-                        Console.WriteLine("Código de Produto Duplicado!");
-                        Console.ReadKey();
-                        codigo = 0;
+                        return i;
                     }
                 }
-            } while (codigo == 0);
-            return codigo;
+            }
+            else
+            {
+                for (int i = 0; i < listaPedidos.Count; i++)
+                {
+                    if (codigo == listaPedidos[i].Codigo)
+                    {
+                        return i;
+                    }
+                }
+            }
+            return -1;
         }
 
-        static string Separador()
+        static Produto LocalizarProduto(int codigo)
         {
-            string saida = "\n";
-            for (int i = 0; i < 30; i++)
+            int indice = Localizar(codigo, Tipo.Produto);
+            if (indice < 0)
             {
-                saida += "-";
+                return null;
             }
-            saida += "\n";
-            return saida;
+            else
+            {
+                return listaProduto[indice];
+            }
+        }
+
+        static Pedido LocalizarPedido(int codigo)
+        {
+            int indice = Localizar(codigo, Tipo.Pedido);
+            if (indice < 0)
+            {
+                return null;
+            }
+            else
+            {
+                return listaPedidos[indice];
+            }
         }
 
         static void CadastrarPedido()
@@ -144,7 +153,7 @@ namespace ExercicioResolvido3
                 Console.WriteLine("Digite os dados do {0}º item:", i+1);
                 Console.Write("Produto (Código): ");
                 int codigoProduto = int.Parse(Console.ReadLine());
-                Produto produto = LocalizaProduto(codigoProduto);
+                Produto produto = LocalizarProduto(codigoProduto);
                 Console.Write("Quantidade: ");
                 int quantidade = int.Parse(Console.ReadLine());
                 Console.Write("Porcentagem de desconto: ");
@@ -154,44 +163,26 @@ namespace ExercicioResolvido3
             listaPedidos.Add(new Pedido(codigo, data, listaItemPedidos));
         }
 
-        static Produto LocalizaProduto(int codigoProduto)
-        {
-            foreach (Produto item in listaProduto)
-            {
-                if(item.Codigo == codigoProduto)
-                {
-                    return item;
-                }
-            }
-            return null;
-        }
-
         static void MostrarPedido()
         {
             Console.Clear();
             Console.Write("Digite o Código do pedido: ");
             int codigo = int.Parse(Console.ReadLine());
-            Pedido pedido = LocalizaPedido(codigo);
-            Console.WriteLine("\nPedido {0}, data: {1}\nItens:\n", pedido.Codigo, pedido.Data);
+            Pedido pedido = LocalizarPedido(codigo);
+            string saida = string.Format("\nPedido {0}, data: {1}\nItens:\n", pedido.Codigo, pedido.Data);
+
             foreach (ItemPedido item in pedido.Pedidos)
             {
-                Console.Write("{0}, Preço: {1}, Qte: {2}, Desconto: {3}, ",
-                    item._Produto.Descricao, item._Produto.Preco, item.Quantidade, item.PorcentagemDesconto);
-                Console.Write("Subtotal: {0}\n", item.SubTotal());
+                saida += item.ToString();
             }
-            Console.WriteLine("Total do pedido: {0}", pedido.ValorTotal());
+            saida += string.Format("Total do pedido: {0:C}", pedido.ValorTotal());
+            Console.WriteLine(saida);
         }
 
-        static Pedido LocalizaPedido(int codigoPedido)
+        enum Tipo
         {
-            foreach (Pedido item in listaPedidos)
-            {
-                if (item.Codigo == codigoPedido)
-                {
-                    return item;
-                }
-            }
-            return null;
+            Produto,
+            Pedido
         }
     }
 }
