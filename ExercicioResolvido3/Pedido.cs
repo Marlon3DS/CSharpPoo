@@ -9,7 +9,14 @@ namespace ExercicioResolvido3
         public DateTime Data { get; set; }
         public List<ItemPedido> Pedidos { get; set; }
 
-        double ValorTotal()
+        public Pedido(int codigo, DateTime data, List<ItemPedido> pedidos)
+        {
+            Codigo = codigo;
+            Data = data;
+            Pedidos = pedidos;
+        }
+
+        public double ValorTotal()
         {
             double total = 0;
             foreach (ItemPedido item in Pedidos)
