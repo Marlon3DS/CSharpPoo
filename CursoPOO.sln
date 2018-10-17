@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExercicioResolvido3", "Exer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExercicioProposto1", "ExercicioProposto1\ExercicioProposto1.csproj", "{B0365EEB-98DD-4184-917D-1A15EFDBA017}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xadrez", "Xadrez\Xadrez.csproj", "{05C3AC5D-2098-4AA2-A948-45EA925B4AE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B0365EEB-98DD-4184-917D-1A15EFDBA017}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0365EEB-98DD-4184-917D-1A15EFDBA017}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0365EEB-98DD-4184-917D-1A15EFDBA017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05C3AC5D-2098-4AA2-A948-45EA925B4AE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05C3AC5D-2098-4AA2-A948-45EA925B4AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05C3AC5D-2098-4AA2-A948-45EA925B4AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05C3AC5D-2098-4AA2-A948-45EA925B4AE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
